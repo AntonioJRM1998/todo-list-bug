@@ -2,6 +2,9 @@ import { Injectable, Logger } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { User } from '../entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { catchError, from, map, Observable } from 'rxjs';
+import { BadRequestException } from '@nestjs/common';
+import { NotFoundException } from '@nestjs/common';
 
 @Injectable()
 export class UsersService {
@@ -11,22 +14,41 @@ export class UsersService {
         private readonly usersRepository: Repository<User>,
     ) {}
 
-    async create(body: any) {
+    public create(body: any): Observable<any> {
         const user = new User();
         user.email = body.email;
-        user.pass = body.password;
+        user.pass = body.pass;
         user.fullname = body.fullname;
 
-        await this.usersRepository.save(user);
-
-        return user;
+        return from(this.usersRepository.save(user)).pipe(
+            map((savedUser) => {
+                this.logger.log(`User created with ID: ${savedUser.id}`);
+                return {
+                    message: 'User created successfully',
+                    user: savedUser,
+                };
+            }),
+            // Handle errors during user creation
+            catchError((error) => {
+                this.logger.error('Error creating user', error);
+                throw new BadRequestException('Could not create user');
+            }),
+        );
     }
 
-    async findOne(email: string) {
-        const user = await this.usersRepository.findOneBy({
-            email,
-        });
-
-        return user;
+    public findOne(email: string) {
+        return from(
+            this.usersRepository.findOneByOrFail({
+                email,
+            }),
+        ).pipe(
+            catchError((error) => {
+                this.logger.error(
+                    `Error finding user with email ${email}`,
+                    error,
+                );
+                throw new NotFoundException('User not found');
+            }),
+        );
     }
 }
