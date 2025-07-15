@@ -23,7 +23,7 @@ Este es un proyecto backend desarrollado con [NestJS](https://nestjs.com/) que p
 
 ## Colección de Postman
 
-Utiliza el archivo `todo-list.postman_collection.json` incluido para probar los endpoints de forma sencilla, incluyendo autenticación y gestión de tareas.
+Utiliza el archivo `Prueba tecnica.postman_collection.json` incluido para probar los endpoints de forma sencilla, incluyendo autenticación y gestión de tareas.
 
 ## Scripts útiles
 
