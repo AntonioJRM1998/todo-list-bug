@@ -8,15 +8,9 @@ import {
     Param,
     Post,
 } from '@nestjs/common';
-import { TasksService } from './tasks.service';
 import { UseGuards } from '@nestjs/common';
-import { AuthGuard } from 'src/auth/auth.guard';
 import { Logger } from '@nestjs/common';
-import { CurrentUser } from 'src/decorators/current-user.decorator';
-import { AuthResponseDto } from 'src/dtos/auth.dto';
-import { catchError, Observable } from 'rxjs';
-import { Task } from 'src/entities/task.entity';
-import { CreateTask, EditTask } from 'src/dtos/tasks.dto';
+import { Observable } from 'rxjs';
 import { Patch } from '@nestjs/common';
 import { UpdateResult } from 'typeorm';
 import {
@@ -25,9 +19,17 @@ import {
     ApiOperation,
     ApiParam,
     ApiResponse,
+    ApiTags,
 } from '@nestjs/swagger';
+import { TasksService } from './service/tasks.service';
+import { CurrentUser } from '@shared/decorators/current-user.decorator';
+import { AuthResponseDto } from '@shared/dtos/auth.dto';
+import { EditTask, CreateTask } from '@shared/dtos/tasks.dto';
+import { Task } from '@shared/entities/task.entity';
+import { AuthGuard } from '@shared/guard/auth.guard';
 
 @Controller('tasks')
+@ApiTags('Tasks')
 @UseGuards(AuthGuard)
 export class TasksController {
     private readonly _logger = new Logger(TasksController.name);

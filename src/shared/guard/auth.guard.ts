@@ -4,8 +4,8 @@ import {
     Injectable,
     UnauthorizedException,
 } from '@nestjs/common';
-import { jwtConstants } from './constants';
-import { IS_PUBLIC_KEY } from './is-public.decorator';
+import { jwtConstants } from '../constants';
+import { IS_PUBLIC_KEY } from '../decorators/is-public.decorator';
 import { JwtService } from '@nestjs/jwt';
 import { Reflector } from '@nestjs/core';
 import { Logger } from '@nestjs/common';

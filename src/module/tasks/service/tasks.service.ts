@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Task } from '../entities/task.entity';
 import { Not, Repository } from 'typeorm';
 import { get, isEmpty, isEqual, isNil } from 'lodash';
 import { Logger } from '@nestjs/common';
@@ -8,10 +7,10 @@ import { catchError, from, map, Observable, of, switchMap } from 'rxjs';
 import { UnauthorizedException } from '@nestjs/common';
 import { NotFoundException } from '@nestjs/common';
 import { ForbiddenException } from '@nestjs/common';
-import { ICreateTask, IEditTask } from 'src/interface/tasks.interface';
-import { User } from 'src/entities/user.entity';
-import { fa } from '@faker-js/faker/.';
-import { IAuthResponse } from 'src/interface/user.interface';
+import { Task } from '@shared/entities/task.entity';
+import { User } from '@shared/entities/user.entity';
+import { IEditTask, ICreateTask } from '@shared/interface/tasks.interface';
+import { IAuthResponse } from '@shared/interface/user.interface';
 
 @Injectable()
 export class TasksService {
@@ -95,12 +94,12 @@ export class TasksService {
                     this._logger.log(
                         `Task with id ${body.id} updated successfully`,
                     );
-                    return { message: 'Tarea actualizada correctamente' };
+                    return { message: 'Task updated successfully' };
                 } else {
                     this._logger.warn(
                         `No task found with id ${body.id} to update`,
                     );
-                    return { message: 'No se actualizó ninguna tarea' };
+                    return { message: 'Task failed to update' };
                 }
             }),
             catchError((error) => {
@@ -128,7 +127,7 @@ export class TasksService {
         task.title = body.title;
         task.description = body.description;
         task.dueDate = body.dueDate;
-        task.done = false; // Default value for new tasks
+        task.done = false;
         task.owner = { id: user.id } as User;
 
         return from(this.tasksRepository.save(task)).pipe(

@@ -1,5 +1,5 @@
 import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
-import { UsersService } from '../users/users.service';
+import { UsersService } from '../../../module/users/service/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { map, Observable, switchMap, from, catchError } from 'rxjs';
 

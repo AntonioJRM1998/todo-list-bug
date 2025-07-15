@@ -1,10 +1,10 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { User } from '../entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { catchError, from, map, Observable } from 'rxjs';
 import { BadRequestException } from '@nestjs/common';
 import { NotFoundException } from '@nestjs/common';
+import { User } from '@shared/entities/user.entity';
 
 @Injectable()
 export class UsersService {
@@ -28,7 +28,6 @@ export class UsersService {
                     user: savedUser,
                 };
             }),
-            // Handle errors during user creation
             catchError((error) => {
                 this.logger.error('Error creating user', error);
                 throw new BadRequestException('Could not create user');
