@@ -1,66 +1,38 @@
+# Todo List API
 
-# 📝 **TODO LIST: El misterio de las tareas desprotegidas** 🔒
+Este es un proyecto backend desarrollado con [NestJS](https://nestjs.com/) que permite gestionar usuarios y tareas (todos). Incluye autenticación con JWT, roles, validaciones y pruebas con Jest.
 
-Esta es una aplicación de TODO LIST en la que se gestionan tareas de usuarios. Sin embargo, hay algunos problemas y vulnerabilidades que necesitan ser corregidos para asegurar el funcionamiento correcto y la protección de los datos.
+## Características
 
-Tu objetivo es identificar y resolver los problemas en el código relacionados con la **autenticación**, **autorización** y la correcta asignación de permisos para gestionar las tareas.
+-   Registro y login de usuarios
+-   Protección de rutas con JWT
+-   Gestión de tareas (crear, obtener, actualizar, eliminar)
+-   Pruebas unitarias y de integración con cobertura alta
+-   Organización modular por carpetas
+-   Uso de TypeORM y PostgreSQL
 
----
+## Requisitos
 
-## 🎯 **Objetivos**
+-   Node.js >= 18
+-   PostgreSQL
+-   Yarn
 
-Tu misión consiste en completar los siguientes objetivos:
+## Instalación
 
-1. **Protección de las tareas por usuario**: Actualmente, cualquier usuario puede ver el detalle de una tarea, incluso si no le pertenece. Deberás corregir esto para asegurarte de que **solo el propietario** de una tarea pueda verla.
+1. Clona el repositorio: `git clone https://github.com/AntonioJRM1998/todo-list-bug.git` y entra en la carpeta: `cd todo-list-bug`. Instala las dependencias con `yarn install`. Configura el entorno creando un archivo `.env` en la raíz con las variables `DATABASE_URL=postgres://usuario:contraseña@localhost:5432/nombre_de_tu_db` y `JWT_SECRET=un_secreto_seguro` (reemplaza con tus datos). Ejecuta las migraciones con `yarn prisma migrate dev --name init` y carga datos de ejemplo con `yarn seed`. Finalmente, inicia el servidor en modo desarrollo con `yarn start:dev`. La API estará disponible en `http://localhost:3000`.
 
-2. **Restringir la edición de tareas**: Actualmente, cualquier usuario puede editar las tareas de otros. Corrige esta funcionalidad para que solo los propietarios puedan editar sus propias tareas.
+## Colección de Postman
 
-3. **Autenticación con JWT**: La autenticación mediante JWT funciona, pero no se verifica adecuadamente en algunos endpoints. Asegúrate de que todas las rutas sensibles estén correctamente protegidas y requieran un **token JWT** válido.
+Utiliza el archivo `todo-list.postman_collection.json` incluido para probar los endpoints de forma sencilla, incluyendo autenticación y gestión de tareas.
 
-4. **Mejorar el manejo de errores**: Debes asegurarte de que, cuando se intente acceder o editar una tarea sin los permisos necesarios, el sistema devuelva el error adecuado (p. ej., **403 Forbidden**). Explora también otros errores que puedan ocurrir por casos extremos.
+## Scripts útiles
 
-5. **Mejorar logs y mensajes de error**: Añade mensajes de error y logs más descriptivos para facilitar la depuración y el mantenimiento del código.
+Para ejecutar pruebas usa `yarn test`, para ver cobertura `yarn test:cov`, para generar migraciones `yarn prisma migrate dev --name nombre` y para ejecutar el seeder manualmente `yarn seed`.
 
-6. **Auditoría general de seguridad**: Realiza una auditoría general del código y busca cualquier otro posible fallo de seguridad o funcional que debas corregir.
+## Estructura del proyecto
 
-> IMPORTANTE: No tomes estos objetivos como los únicos a cumplir. Todas las mejoras que puedas aportar para asegurar la seguridad y el correcto funcionamiento de la aplicación serán bienvenidas.
----
+El código está organizado en carpetas principales dentro de `src/`: `module/` con `users` y `tasks`, y `shared/` que contiene `auth`, `decorators`, `dtos`, `entities`, `guard` y `constants.ts`. El punto de entrada es `main.ts` y el módulo principal `app.module.ts`.
 
-## 🚀 **Primeros pasos**
+## Licencia
 
-Sigue estos pasos para levantar el proyecto y trabajar en las correcciones necesarias:
-
-1. **Realiza un Fork del repositorio**  
-   Primero, haz un fork del proyecto desde el repositorio original. Puedes hacerlo directamente desde la interfaz de GitHub haciendo clic en el botón de "Fork".
-
-2. **Clona el repositorio en tu máquina local**  
-   Clona el repositorio forkeado:
-   ```bash
-   git clone https://github.com/tu-usuario/todo-list-bug.git
-   cd todo-list-bug
-   ```
-
-3. **Instala las dependencias**  
-   Asegúrate de tener instaladas todas las dependencias necesarias ejecutando:
-   ```bash
-   yarn install
-   ```
-
-4. **Inicializa la base de datos**
-   Una vez que hayas instalado las dependencias ejecuta el comando para inicializar la base de datos:
-   ```bash
-   yarn migrations:run
-   ```
-
-5. **Arranca el servidor**  
-   Inicia el proyecto con:
-   ```bash
-   yarn start
-   ```
-
-6. **Resuelve los bugs**  
-   Identifica y resuelve los problemas mencionados en los objetivos y cualquier otro que encuentres.
-
----
-
-¡Listo! Ahora puedes empezar a trabajar en los errores y enviar tu contribución para asegurar que la aplicación funcione correctamente y sin vulnerabilidades.
+MIT
